@@ -11,6 +11,9 @@ Com objetivos de aquisição da aprovação na disciplina de Banco de Dados II.
 
 Os tempos calculados serão utilizados como base para defesa do material em sala de aula;
 
+Arquivos com registros foram baixados de: 
+http://research.microsoft.com/apps/pubs/?id=152883
+
 #Scripts de criação:
 
 ```SQL
