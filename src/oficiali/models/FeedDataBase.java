@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oficiali.dao.TrajectoryDao;
-import oficiali.models.TrajectoryModel;
 import oficiali.utils.ConexaoApi;
 
 public class FeedDataBase {
     private static final File RESOURCES = new File("resources");
     
-    public static void loadResourceToDataBase(ConexaoApi cn) throws ClassNotFoundException, SQLException {
+    public static void loadResourceToDataBase(ConexaoApi cn, int numberOfRows) throws ClassNotFoundException, SQLException {
         ArrayList<File> scriptFiles = new ArrayList<>();
         blowFileStructure(RESOURCES.listFiles(), scriptFiles);  
         final ArrayList<TrajectoryModel> trajectoryModels = new ArrayList<>();
@@ -29,16 +29,23 @@ public class FeedDataBase {
                 Logger.getLogger(FeedDataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        });
-        System.out.println("Doing... ");
-        trajectoryModels.forEach(t -> {
+        }); 
+        
+        System.out.println("Inserting trajectory and trajectory_w_index tables... ");
+        Date startDate = new Date();
+        trajectoryModels.stream().limit(numberOfRows).forEach(t -> {
             try {
-                TrajectoryDao.insert(t, cn);
+                TrajectoryDao.insertTrajectory(t, cn);
+                TrajectoryDao.insertTrajectoryWithIndex(t, cn);
             } catch (SQLException ex) {
                 Logger.getLogger(FeedDataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        System.out.println("Done! ");
+        Date endDate = new Date();
+        System.out.println(String.format("Done! rows inserted: %s", trajectoryModels.stream().limit(numberOfRows).count()));
+        System.out.println(String.format("Started at %s", startDate));
+        System.out.println(String.format("Finished at %s", endDate));
+        System.out.println(String.format("Total time: %s milli sec.", (endDate.getTime() - startDate.getTime()) ));
         
     }
     

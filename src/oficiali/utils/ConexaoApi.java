@@ -71,6 +71,12 @@ public class ConexaoApi {
         return rs.getInt(field);
     }
     
+    public Date getDate(String field) throws SQLException {
+        Calendar cal = Calendar.getInstance();
+		cal.setTime(rs.getDate(field));
+		return new Date(cal.getTimeInMillis());
+    }
+    
     public void close() throws SQLException {
         rs.close();
         stmt.close();
