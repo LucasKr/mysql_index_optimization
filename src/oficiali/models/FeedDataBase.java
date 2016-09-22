@@ -1,20 +1,23 @@
-package oficiali.app;
+package oficiali.models;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oficiali.dao.TrajectoryDao;
 import oficiali.models.TrajectoryModel;
+import oficiali.utils.ConexaoApi;
 
 public class FeedDataBase {
     private static final File RESOURCES = new File("resources");
     
-    public static void main(String[] args) {
+    public static void loadResourceToDataBase(ConexaoApi cn) throws ClassNotFoundException, SQLException {
         ArrayList<File> scriptFiles = new ArrayList<>();
         blowFileStructure(RESOURCES.listFiles(), scriptFiles);  
         final ArrayList<TrajectoryModel> trajectoryModels = new ArrayList<>();
@@ -22,22 +25,27 @@ public class FeedDataBase {
             
             try {
                 trajectoryModels.addAll(listTrajectoryModels(o));
-            } catch (IOException ex) {
-                Logger.getLogger(FeedDataBase.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
+            } catch (IOException | ParseException ex) {
                 Logger.getLogger(FeedDataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         });
-        
-        System.out.println("trajectoryModels.stream().count(): " + trajectoryModels.stream().count());
+        System.out.println("Doing... ");
+        trajectoryModels.forEach(t -> {
+            try {
+                TrajectoryDao.insert(t, cn);
+            } catch (SQLException ex) {
+                Logger.getLogger(FeedDataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        System.out.println("Done! ");
         
     }
     
     private static ArrayList<TrajectoryModel> listTrajectoryModels(File f) throws FileNotFoundException, IOException, ParseException {
         BufferedReader br = new BufferedReader(new FileReader(f));
         ArrayList<TrajectoryModel> result = new ArrayList<>();
-        String line = "";
+        String line;
         while( ( line = br.readLine()) != null) {
             result.add(TrajectoryModel.parser(line));
         }

@@ -22,6 +22,22 @@ public class TrajectoryModel {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public int getIdveicle() {
+        return idveicle;
+    }
+
+    public Date getWhen() {
+        return when;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
     
     private TrajectoryModel(String idveicle, String when, String longitude, String latitude) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
