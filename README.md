@@ -17,5 +17,23 @@ Os tempos calculados serão utilizados como base para defesa do material em sala
 
 create database oficial_i;
 
+create table trajectory ( 
+   id int unsigned not null auto_increment, 
+   taxi_id int,
+   when_ocurrs date, 
+   longitude varchar(15), 
+   latitude varchar(15), 
+   primary key(id));
+
+create table trajectory_w_index ( 
+   id int unsigned not null auto_increment, 
+   taxi_id int,
+   when_ocurrs date, 
+   longitude varchar(15), 
+   latitude varchar(15), 
+   primary key(id)); 
+
+alter table trajectory_w_index
+add index (longitude, latitude);
 
 ```
