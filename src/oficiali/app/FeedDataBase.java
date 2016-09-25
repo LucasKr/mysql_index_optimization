@@ -1,4 +1,4 @@
-package oficiali.models;
+package oficiali.app;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oficiali.dao.TrajectoryDao;
+import oficiali.models.TrajectoryModel;
 import oficiali.utils.ConexaoApi;
 
 public class FeedDataBase {

@@ -1,11 +1,8 @@
 package oficiali.models;
 
-import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import oficiali.utils.ConexaoApi;
 
 
 /** 

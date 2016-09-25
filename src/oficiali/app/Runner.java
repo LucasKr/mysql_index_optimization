@@ -1,12 +1,9 @@
 package oficiali.app;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import oficiali.dao.TrajectoryDao;
-import oficiali.models.FeedDataBase;
 import oficiali.utils.ConexaoApi;
 
 public class Runner {
